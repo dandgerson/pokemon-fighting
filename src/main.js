@@ -1,50 +1,80 @@
-const character = {
-  name: 'Pikachu',
-  defaultHp: 100,
-  currentHp: 100,
-  damage: 20,
-  elHp: document.getElementById('health-character'),
-  elProgressBar: document.getElementById('progressbar-character'),
-  elBtnKick: document.getElementById('btn-kick-character')
+const pokemonsData = [
+  {
+    name: 'Pikachu',
+    hp: 100,
+    damage: 20,
+  },
+  {
+    name: 'Charmander',
+    hp: 100,
+    damage: 20,
+  },
+]
+
+const roles = {
+  character: {
+    elHp: document.getElementById('health-character'),
+    elProgressBar: document.getElementById('progressbar-character'),
+    elBtnKick: document.getElementById('btn-kick-character')
+  },
+  enemy: {
+    elHp: document.getElementById('health-enemy'),
+    elProgressBar: document.getElementById('progressbar-enemy'),
+    elBtnKick: document.getElementById('btn-kick-enemy')
+  },
 }
 
-const enemy = {
-  name: 'Charmander',
-  defaultHp: 100,
-  currentHp: 100,
-  damage: 20,
-  elHp: document.getElementById('health-enemy'),
-  elProgressBar: document.getElementById('progressbar-enemy'),
-  elBtnKick: document.getElementById('btn-kick-enemy')
+const Pokemon = function({name, hp, damage}) {
+    this.name = name
+    this.defaultHp = hp
+    this.currentHp = hp
+    this.damage = damage
 }
 
-const renderHp = (person) => {
-  const renderHpLife = (person) => {
-    person.elHp.innerText = person.currentHp + ' / ' + person.defaultHp
+const random = (num, type) => type === 'fromZero'
+  ? Math.floor(Math.random() * num)
+  : Math.ceil(Math.random() * num)
+
+const createPokemons = (pokemonsData, pokemonConstructor) => pokemonsData.map(pokemonData => new pokemonConstructor(pokemonData))
+
+const assignRoles = (pokemons, roles) => {
+
+  console.log(random(pokemons.length, 'fromZero'))
+
+  return Object.entries(roles).map(([role, roleProps]) => ({
+    ...pokemons[random(pokemons.length, 'fromZero')],
+    role,
+    ...roleProps,
+  }))
+}
+
+
+const renderHp = (pokemon) => {
+  const renderHpLife = (pokemon) => {
+    pokemon.elHp.innerText = pokemon.currentHp + ' / ' + pokemon.defaultHp
   }
-  const renderProgresBar = (person) => {
-    Object.assign(person.elProgressBar.style, {
-      width: person.currentHp + '%',
+  const renderProgresBar = (pokemon) => {
+    Object.assign(pokemon.elProgressBar.style, {
+      width: pokemon.currentHp + '%',
     })
   }
 
-  renderHpLife(person)
-  renderProgresBar(person)
+  renderHpLife(pokemon)
+  renderProgresBar(pokemon)
 }
 
-const changeHp = (damage, person) => {
-  if (damage > person.currentHp) {
-    person.currentHp = 0
+const changeHp = (damage, pokemon) => {
+  if (damage > pokemon.currentHp) {
+    pokemon.currentHp = 0
 
-    alert(`Бедный ${person.name} -- проиграл...`)
-    person.elBtnKick.disabled = true
+    alert(`Бедный ${pokemon.name} -- проиграл...`)
+    pokemon.elBtnKick.disabled = true
   } else {
-    person.currentHp -= damage
+    pokemon.currentHp -= damage
   }
-  renderHp(person)
+  renderHp(pokemon)
 }
 
-const random = (num) => Math.ceil(Math.random() * num)
 
 
 // Init Game
@@ -52,8 +82,16 @@ const random = (num) => Math.ceil(Math.random() * num)
 const init = () => {
   console.log('Start Game!')
 
+  const pokemons = createPokemons(pokemonsData, Pokemon)
+  const [character, enemy] = assignRoles(pokemons, roles)
+
+  console.log({
+    character,
+    enemy,
+  })
+
   character.elBtnKick.addEventListener('click', () => changeHp(random(character.damage), enemy))
-  enemy.elBtnKick.addEventListener('click', () => changeHp(random(character.damage), character))
+  enemy.elBtnKick.addEventListener('click', () => changeHp(random(enemy.damage), character))
 
 }
 
