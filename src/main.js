@@ -24,11 +24,11 @@ const roles = {
   },
 }
 
-const Pokemon = function({name, hp, damage}) {
-    this.name = name
-    this.defaultHp = hp
-    this.currentHp = hp
-    this.damage = damage
+const Pokemon = function ({ name, hp, damage }) {
+  this.name = name
+  this.defaultHp = hp
+  this.currentHp = hp
+  this.damage = damage
 }
 
 const random = (num, type) => type === 'fromZero'
@@ -39,13 +39,18 @@ const createPokemons = (pokemonsData, pokemonConstructor) => pokemonsData.map(po
 
 const assignRoles = (pokemons, roles) => {
 
-  console.log(random(pokemons.length, 'fromZero'))
+  return Object.entries(roles).map(([role, roleProps]) => {
+    const randomPokemon = pokemons[random(pokemons.length, 'fromZero')]
 
-  return Object.entries(roles).map(([role, roleProps]) => ({
-    ...pokemons[random(pokemons.length, 'fromZero')],
-    role,
-    ...roleProps,
-  }))
+    document.querySelector(`#name-${role}`).innerText = `${randomPokemon.name}`
+    document.querySelector(`.pokemon.${role} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
+
+    return {
+      ...randomPokemon,
+      role,
+      ...roleProps,
+    }
+  })
 }
 
 
@@ -85,10 +90,10 @@ const init = () => {
   const pokemons = createPokemons(pokemonsData, Pokemon)
   const [character, enemy] = assignRoles(pokemons, roles)
 
-  console.log({
+  console.log(
     character,
     enemy,
-  })
+  )
 
   character.elBtnKick.addEventListener('click', () => changeHp(random(character.damage), enemy))
   enemy.elBtnKick.addEventListener('click', () => changeHp(random(enemy.damage), character))
