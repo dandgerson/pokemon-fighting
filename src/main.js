@@ -90,11 +90,6 @@ const init = () => {
   const pokemons = createPokemons(pokemonsData, Pokemon)
   const [character, enemy] = assignRoles(pokemons, roles)
 
-  console.log(
-    character,
-    enemy,
-  )
-
   character.elBtnKick.addEventListener('click', () => changeHp(random(character.damage), enemy))
   enemy.elBtnKick.addEventListener('click', () => changeHp(random(enemy.damage), character))
 
