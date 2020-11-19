@@ -9,6 +9,21 @@ const pokemonsData = [
     hp: 100,
     damage: 20,
   },
+  {
+    name: 'Eevee',
+    hp: 100,
+    damage: 20,
+  },
+  {
+    name: 'Squirtle',
+    hp: 100,
+    damage: 20,
+  },
+  {
+    name: 'Bulbasaur',
+    hp: 100,
+    damage: 20,
+  },
 ]
 
 const roles = {
