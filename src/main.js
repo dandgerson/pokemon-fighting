@@ -1,42 +1,15 @@
-// first task
-const firstRow = 'мама мыла раму'
-const secondRow = 'собака друг человека'
+const $btnKickEnemy = document.getElementById('btn-kick-enemy')
+const $btnKickCharacter = document.getElementById('btn-kick-character')
 
-const getRow = (first, second) => {
-
-  const countChar = (char, row) => {
-    let count = 0
-
-    for (let i = 0; i < row.length; i++) {
-      row.charAt(i) === char && count++
-    }
-
-    return count
-  }
-
-  return countChar('а', first) > countChar('а', second) ? first : second
+const character = {
+  name: 'Pikachu',
+  defaultHp: 100,
+  damageHp: 100,
 }
 
-
-
-// second task
-const formatPhone = (numbers) => {
-  let result = ''
-
-  const phoneFormatMap = {
-    1: ' (',
-    4: ') ',
-    7: '-',
-    9: '-',
-  }
-
-  for (let i = 0; i < numbers.length; i++) {
-    result += numbers.charAt(i)
-    phoneFormatMap[i] && (result += phoneFormatMap[i])
-  }
-
-  return result
+const enemy = {
+  name: 'Charmander',
+  defaultHp: 100,
+  damageHp: 100,
 }
 
-// console.log(formatPhone('+71234567890'))
-// console.log(getRow(firstRow, secondRow))
