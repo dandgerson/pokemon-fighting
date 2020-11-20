@@ -132,7 +132,9 @@ const init = () => {
     rival.renderHp()
 
     if (rival.currentHp === 0) {
-      alert(`Бедный ${rival.name} -- проиграл...`)
+      setTimeout(() => {
+        alert(`Бедный ${rival.name} -- проиграл...`)
+      }, 1000)
 
       rival.elBtnKick.disabled = true
       this.elBtnKick.disabled = true
