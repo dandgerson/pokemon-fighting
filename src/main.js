@@ -52,17 +52,10 @@ const Role = function (role) {
   }
 
   this.renderHp = function () {
-    const renderHpLife = () => {
-      this.elHp.innerText = this.currentHp + ' / ' + this.defaultHp
-    }
-    const renderProgresBar = () => {
-      Object.assign(this.elProgressBar.style, {
-        width: this.currentHp + '%',
-      })
-    }
-
-    renderHpLife()
-    renderProgresBar()
+    this.elHp.innerText = this.currentHp + ' / ' + this.defaultHp
+    Object.assign(this.elProgressBar.style, {
+      width: this.currentHp + '%',
+    })
   }
 }
 
