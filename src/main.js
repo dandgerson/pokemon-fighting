@@ -26,17 +26,44 @@ const pokemonsData = [
   },
 ]
 
-const roles = {
-  character: {
-    elHp: document.getElementById('health-character'),
-    elProgressBar: document.getElementById('progressbar-character'),
-    elBtnKick: document.getElementById('btn-kick-character')
-  },
-  enemy: {
-    elHp: document.getElementById('health-enemy'),
-    elProgressBar: document.getElementById('progressbar-enemy'),
-    elBtnKick: document.getElementById('btn-kick-enemy')
-  },
+const rolesList = ['character', 'enemy']
+
+const random = (num, type) => type === 'withZero'
+  ? Math.floor(Math.random() * num)
+  : Math.ceil(Math.random() * num)
+
+
+const Role = function (role) {
+  this.roleName = role
+  this.elHp = document.getElementById(`health-${role}`)
+  this.elProgressBar = document.getElementById(`progressbar-${role}`)
+  this.elBtnKick = document.getElementById(`btn-kick-${role}`)
+
+  this.attack = function (assignedRole) {
+    const damage = random(this.damage)
+
+    if (damage > assignedRole.currentHp) {
+      assignedRole.currentHp = 0
+      alert(`Бедный ${assignedRole.name} -- проиграл...`)
+      assignedRole.elBtnKick.disabled = true
+    } else {
+      assignedRole.currentHp -= damage
+    }
+  }
+
+  this.renderHp = function () {
+    const renderHpLife = () => {
+      this.elHp.innerText = this.currentHp + ' / ' + this.defaultHp
+    }
+    const renderProgresBar = () => {
+      Object.assign(this.elProgressBar.style, {
+        width: this.currentHp + '%',
+      })
+    }
+
+    renderHpLife()
+    renderProgresBar()
+  }
 }
 
 const Pokemon = function ({ name, hp, damage }) {
@@ -46,67 +73,38 @@ const Pokemon = function ({ name, hp, damage }) {
   this.damage = damage
 }
 
-const random = (num, type) => type === 'fromZero'
-  ? Math.floor(Math.random() * num)
-  : Math.ceil(Math.random() * num)
-
-const createPokemons = (pokemonsData, pokemonConstructor) => pokemonsData.map(pokemonData => new pokemonConstructor(pokemonData))
+const build = (data, constructor) => data.map(item => new constructor(item))
 
 const assignRoles = (pokemons, roles) => {
+  return roles.map(role => {
+    const randomPokemon = pokemons[random(pokemons.length, 'withZero')]
 
-  return Object.entries(roles).map(([role, roleProps]) => {
-    const randomPokemon = pokemons[random(pokemons.length, 'fromZero')]
-
-    document.querySelector(`#name-${role}`).innerText = `${randomPokemon.name}`
-    document.querySelector(`.pokemon.${role} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
+    document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
+    document.querySelector(`.pokemon.${role.roleName} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
 
     return {
       ...randomPokemon,
-      role,
-      ...roleProps,
+      ...role,
     }
   })
 }
-
-
-const renderHp = (pokemon) => {
-  const renderHpLife = (pokemon) => {
-    pokemon.elHp.innerText = pokemon.currentHp + ' / ' + pokemon.defaultHp
-  }
-  const renderProgresBar = (pokemon) => {
-    Object.assign(pokemon.elProgressBar.style, {
-      width: pokemon.currentHp + '%',
-    })
-  }
-
-  renderHpLife(pokemon)
-  renderProgresBar(pokemon)
-}
-
-const changeHp = (damage, pokemon) => {
-  if (damage > pokemon.currentHp) {
-    pokemon.currentHp = 0
-
-    alert(`Бедный ${pokemon.name} -- проиграл...`)
-    pokemon.elBtnKick.disabled = true
-  } else {
-    pokemon.currentHp -= damage
-  }
-  renderHp(pokemon)
-}
-
-
 
 // Init Game
 
 const init = () => {
   console.log('Start Game!')
 
-  const pokemons = createPokemons(pokemonsData, Pokemon)
+  const pokemons = build(pokemonsData, Pokemon)
+  const roles = build(rolesList, Role)
   const [character, enemy] = assignRoles(pokemons, roles)
 
-  character.elBtnKick.addEventListener('click', () => changeHp(random(character.damage), enemy))
-  enemy.elBtnKick.addEventListener('click', () => changeHp(random(enemy.damage), character))
+  const handleBtnKickClick = function (role) {
+    this.attack(role)
+    role.renderHp()
+  }
+
+  character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
+  enemy.elBtnKick.addEventListener('click', handleBtnKickClick.bind(enemy, character))
 
 }
 
