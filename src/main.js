@@ -126,6 +126,7 @@ const init = () => {
   const [character, enemy] = assignRoles(pokemons, roles)
 
   let stepCount = 0
+  let timeOut
 
   const handleBtnKickClick = function (rival) {
     const damage = this.attack(rival)
@@ -134,10 +135,13 @@ const init = () => {
     if (rival.currentHp === 0) {
       setTimeout(() => {
         alert(`Бедный ${rival.name} -- проиграл...`)
-      }, 1000)
+      }, 500)
+      clearTimeout(timeOut)
 
       rival.elBtnKick.disabled = true
       this.elBtnKick.disabled = true
+      rival.elBtnKick.removeEventListener('click', handleBtnKickClick)
+      this.elBtnKick.removeEventListener('click', handleBtnKickClick)
 
       return
     }
@@ -150,7 +154,7 @@ const init = () => {
     $logsContainer.querySelector('.log').classList.add('log-last')
 
     this.elBtnKick.disabled = true
-     setTimeout(() => {
+     timeOut = setTimeout(() => {
       this === character && rival.elBtnKick.click()
       this.elBtnKick.disabled = false
     }, 1000)
