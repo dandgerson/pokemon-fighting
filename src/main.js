@@ -39,15 +39,13 @@ const Role = function (role) {
   this.elProgressBar = document.getElementById(`progressbar-${role}`)
   this.elBtnKick = document.getElementById(`btn-kick-${role}`)
 
-  this.attack = function (assignedRole) {
-    const damage = random(this.damage)
+  this.attack = function (rival) {
+    rival.currentHp -= random(this.damage)
 
-    if (damage > assignedRole.currentHp) {
-      assignedRole.currentHp = 0
-      alert(`Бедный ${assignedRole.name} -- проиграл...`)
-      assignedRole.elBtnKick.disabled = true
-    } else {
-      assignedRole.currentHp -= damage
+    if (rival.currentHp <= 0) {
+      rival.currentHp = 0
+      alert(`Бедный ${rival.name} -- проиграл...`)
+      rival.elBtnKick.disabled = true
     }
   }
 
