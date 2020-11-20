@@ -485,16 +485,14 @@ h1 {
 
 .logs {
   width: 550px;
-  height: 374px;
+  height: 40vh;
   outline: 1px solid rgba(222	239	251	 / 0.2);
   overflow: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
   text-align: left;
-
   background-color: rgba(222	239	251	/ 0.2);
   padding: 6px;
 }
