@@ -33,6 +33,31 @@ const random = (num, type) => type === 'withZero'
   : Math.ceil(Math.random() * num)
 
 
+const generateLog = function (rival, damage) {
+  const getCharName = (char, suffix) => `${char.name}${this.name === rival.name ? ` #${suffix}` : ''}`
+
+  const logs = [
+    `[${getCharName(rival, 2)}] вспомнил что-то важное, но неожиданно [${getCharName(this, 1)}], не помня себя от испуга, ударил в предплечье врага.`,
+    `[${getCharName(rival, 2)}] поперхнулся, и за это [${getCharName(this, 1)}] с испугу приложил прямой удар коленом в лоб врага.`,
+    `[${getCharName(rival, 2)}] забылся, но в это время наглый [${getCharName(this, 1)}], приняв волевое решение, неслышно подойдя сзади, ударил.`,
+    `[${getCharName(rival, 2)}] поперхнулся, но в это время [${getCharName(this, 1)}] нехотя раздробил кулаком \<вырезанно цензурой\> противника.`,
+    `[${getCharName(rival, 2)}] пришел в себя, но неожиданно [${getCharName(this, 1)}] случайно нанес мощнейший удар.`,
+    `[${getCharName(rival, 2)}] удивился, а [${getCharName(this, 2)}] пошатнувшись влепил подлый удар.`,
+    `[${getCharName(rival, 2)}] высморкался, но неожиданно [${getCharName(this, 1)}] провел дробящий удар.`,
+    `[${getCharName(rival, 2)}] пошатнулся, и внезапно наглый [${getCharName(this, 1)}] беспричинно ударил в ногу противника`,
+    `[${getCharName(rival, 2)}] расстроился, как вдруг, неожиданно [${getCharName(this, 1)}] случайно влепил стопой в живот соперника.`,
+    `[${getCharName(rival, 2)}] пытался что-то сказать, но вдруг, неожиданно [${getCharName(this, 1)}] со скуки, разбил бровь сопернику.`,
+  ]
+
+  const rivalDamageLog = ` Нанеся [${damage}] очков урона`
+  const rivalHpStatusLog = `Теперь у [${getCharName(rival, 2)}] : [${rival.currentHp} / ${rival.defaultHp}] очков здоровья`
+
+  console.log('#### ', logs[random(logs.length, 'withZero')] + rivalDamageLog)
+  console.log('#### ', rivalHpStatusLog)
+
+  // return logs[random(logs.length, 'withZero')]
+}
+
 const Role = function (role) {
   this.roleName = role
   this.elHp = document.getElementById(`health-${role}`)
@@ -40,13 +65,16 @@ const Role = function (role) {
   this.elBtnKick = document.getElementById(`btn-kick-${role}`)
 
   this.attack = function (rival) {
-    rival.currentHp -= random(this.damage)
+    const damage = random(this.damage)
+    rival.currentHp -= damage
 
     if (rival.currentHp <= 0) {
       rival.currentHp = 0
       alert(`Бедный ${rival.name} -- проиграл...`)
       rival.elBtnKick.disabled = true
     }
+
+    return damage
   }
 
   this.renderHp = function () {
@@ -89,9 +117,10 @@ const init = () => {
   const roles = build(rolesList, Role)
   const [character, enemy] = assignRoles(pokemons, roles)
 
-  const handleBtnKickClick = function (role) {
-    this.attack(role)
-    role.renderHp()
+  const handleBtnKickClick = function (rival) {
+    const damage = this.attack(rival)
+    rival.renderHp()
+    generateLog.call(this, rival, damage)
   }
 
   character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
