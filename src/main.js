@@ -77,14 +77,12 @@ const Role = function (role) {
 
   this.attack = function (rival) {
     const damage = random(this.damage) * 2
+
     rival.currentHp -= damage
+    this.currentStamina -= 1
 
-    if (this.currentStamina > 0) {
-      this.currentStamina--
-
-      if (this.currentStamina === 0) {
-        this.elBtnKick.disabled = true
-      }
+    if (this.currentStamina === 0) {
+      this.elBtnKick.disabled = true
     }
 
     if (rival.currentHp <= 0) {
@@ -154,19 +152,12 @@ const init = () => {
   let stepCount = 0
 
   const handleBtnKickClick = function (rival) {
-    if (rival.currentHp === 0) {
-      rival.elBtnKick.disabled = true
-      this.elBtnKick.disabled = true
-
-      alert(`Бедный ${rival.name} -- проиграл...`)
-
-      return
-    }
+    stepCount++
 
     const renderLog = ({ damage }) => {
       const $logsContainer = document.querySelector('.logs')
       $logsContainer
-        .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, ++stepCount))
+        .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, stepCount))
 
       $logsContainer.scrollTop = 0
       $logsContainer.querySelector('.log').classList.add('log-last')
@@ -176,9 +167,23 @@ const init = () => {
       const damage = this.attack(rival) // sideEffect: this.currentStamina--
       rival.renderHp()
       this.renderStamina()
- 
+
       renderLog({ damage })
-      rival.elBtnKick.click()
+
+      if (rival.currentHp === 0) {
+        rival.elBtnKick.disabled = true
+        this.elBtnKick.disabled = true
+
+        setTimeout(() => {
+          alert(`Бедный ${rival.name} -- проиграл...`)
+        }, 300)
+
+        return
+      }
+
+      if (this === character && !rival.elBtnKick.disabled) {
+        setTimeout(() => rival.elBtnKick.click(), 500)
+      }
     }
   }
 

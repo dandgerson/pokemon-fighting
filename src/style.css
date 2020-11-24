@@ -88,8 +88,8 @@ body {
 .pokemon {
   text-align: center;
   position: relative;
-  width: 180px;
-  height: 284px;
+  width: 250px;
+  height: 350px;
   min-width: 109px;
   margin: 20px;
   background-image: url(./assets/card.svg);
@@ -153,10 +153,10 @@ body {
 }
 .pokemon .sprite {
   position: absolute;
-  top: 40%;
+  top: 45%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1.2);
   max-width: 100px;
 }
 .pokemon .details {
@@ -491,8 +491,9 @@ h1 {
 
 .logs {
   width: 550px;
-  min-height: 100px;
-  max-height: 40vh;
+  height: 40vh;
+  /* min-height: 100px; */
+  /* max-height: 40vh; */
   outline: 1px solid rgba(222	239	251	 / 0.2);
   overflow: hidden;
   overflow-y: auto;
@@ -510,7 +511,7 @@ h1 {
   padding: 6px;
   background-color: rgba(187 222 247	/ .4);
 
-  border: 4px solid rgba(187 222 247	/ .9);
+  border: 4px solid rgba(187 255 247	/ .9);
   transition: border-color 500ms linear;
 }
 
