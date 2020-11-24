@@ -89,8 +89,8 @@ body {
   text-align: center;
   position: relative;
   width: 180px;
-  height: 260px;
-  min-width: 150px;
+  height: 284px;
+  min-width: 109px;
   margin: 20px;
   background-image: url(./assets/card.svg);
   background-repeat: no-repeat;
@@ -172,39 +172,45 @@ body {
   margin: 4px 0;
   display: inline-block;
 }
+.pokemon .details .stm,
 .pokemon .details .hp {
   width: 60%;
   margin: auto;
 }
+.pokemon .details .stm .text,
 .pokemon .details .hp .text {
   color: #666;
   display: inline-block;
   padding-top: 4px;
   font-size: 14px;
 }
-.pokemon .details .hp .bar {
+.pokemon .details .hp .bar,
+.pokemon .details .stm .bar {
   border-radius: 50px;
   background: #073fa7;
   border: 3.5px solid #00a3e2;
   height: 18px;
   overflow: hidden;
 }
+.pokemon .details .stm .bar .stamina,
 .pokemon .details .hp .bar .health {
   width: 50%;
   height: 100%;
   background: -webkit-gradient(linear, left top, right top, from(lime), to(#8bf500));
   background: linear-gradient(to right, lime, #8bf500);
 }
-.pokemon .details .hp .bar .health.low {
+.pokemon .details .hp .bar .health.low,
+.pokemon .details .stm .bar .stamina  {
   background: -webkit-gradient(linear, left top, right top, from(#ffcc00), to(#f1f500));
   background: linear-gradient(to right, #ffcc00, #f1f500);
 }
+
 .pokemon .details .hp .bar .health.critical {
   background: -webkit-gradient(linear, left top, right top, from(#d20000), to(#f51700));
   background: linear-gradient(to right, #d20000, #f51700);
 }
 
-.health {
+.health, .stamina {
   transition: width 300ms linear;
 }
 
@@ -241,7 +247,7 @@ body {
   left: 7px;
   right: 7px;
   bottom: 2px;
-  height: 180px;
+  height: 182px;
   border-radius: 100% 100% 70% 70% / 70% 70% 20% 20%;
   background: transparent;
   box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
@@ -485,7 +491,8 @@ h1 {
 
 .logs {
   width: 550px;
-  height: 40vh;
+  min-height: 100px;
+  max-height: 40vh;
   outline: 1px solid rgba(222	239	251	 / 0.2);
   overflow: hidden;
   overflow-y: auto;
@@ -495,6 +502,7 @@ h1 {
   text-align: left;
   background-color: rgba(222	239	251	/ 0.2);
   padding: 6px;
+  margin-bottom: 40px;
 }
 
 .log {
