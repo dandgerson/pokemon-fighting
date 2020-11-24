@@ -74,7 +74,6 @@ const Role = function (role) {
   this.elProgressBarHp = document.getElementById(`progressbar-hp-${role}`)
   this.elProgressBarStm = document.getElementById(`progressbar-stm-${role}`)
   this.elBtnKick = document.getElementById(`btn-kick-${role}`)
-  this.timeOut = null
 
   this.attack = function (rival) {
     const damage = random(this.damage) * 2
@@ -82,10 +81,10 @@ const Role = function (role) {
 
     if (this.currentStamina > 0) {
       this.currentStamina--
-    }
 
-    if (this.currentStamina <= 0) {
-      this.elBtnKick.disabled === true
+      if (this.currentStamina === 0) {
+        this.elBtnKick.disabled = true
+      }
     }
 
     if (rival.currentHp <= 0) {
@@ -152,44 +151,35 @@ const init = () => {
   const pokemons = build(pokemonsData, Pokemon)
   const roles = build(rolesList, Role)
   const [character, enemy] = assignRoles(pokemons, roles)
-
   let stepCount = 0
 
   const handleBtnKickClick = function (rival) {
-    const damage = this.attack(rival)
-    this.renderStamina()
-    rival.renderHp()
-
-    if (this.curerntStamina === 0) {
-      clearTimeout(this.timeOut)
-    }
-
     if (rival.currentHp === 0) {
-      setTimeout(() => {
-        alert(`Бедный ${rival.name} -- проиграл...`)
-      }, 500)
-      clearTimeout(this.timeOut)
-
       rival.elBtnKick.disabled = true
       this.elBtnKick.disabled = true
-      rival.elBtnKick.removeEventListener('click', handleBtnKickClick)
-      this.elBtnKick.removeEventListener('click', handleBtnKickClick)
+
+      alert(`Бедный ${rival.name} -- проиграл...`)
 
       return
     }
 
-    const $logsContainer = document.querySelector('.logs')
-    $logsContainer
-      .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, ++stepCount))
+    const renderLog = ({ damage }) => {
+      const $logsContainer = document.querySelector('.logs')
+      $logsContainer
+        .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, ++stepCount))
 
-    $logsContainer.scrollTop = 0
-    $logsContainer.querySelector('.log').classList.add('log-last')
+      $logsContainer.scrollTop = 0
+      $logsContainer.querySelector('.log').classList.add('log-last')
+    }
 
-    this.elBtnKick.disabled = true
-    this.timeOut = setTimeout(() => {
-      this === character && rival.elBtnKick.click()
-      this.elBtnKick.disabled = false
-    }, 1000)
+    if (this.currentStamina > 0) {
+      const damage = this.attack(rival) // sideEffect: this.currentStamina--
+      rival.renderHp()
+      this.renderStamina()
+ 
+      renderLog({ damage })
+      rival.elBtnKick.click()
+    }
   }
 
   character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
