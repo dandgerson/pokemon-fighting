@@ -3,26 +3,31 @@ const pokemonsData = [
     name: 'Pikachu',
     hp: 200,
     damage: 10,
+    stamina: 5,
   },
   {
     name: 'Charmander',
     hp: 180,
     damage: 12,
+    stamina: 6,
   },
   {
     name: 'Eevee',
     hp: 100,
     damage: 20,
+    stamina: 10,
   },
   {
     name: 'Squirtle',
     hp: 160,
     damage: 14,
+    stamina: 7,
   },
   {
     name: 'Bulbasaur',
     hp: 140,
     damage: 16,
+    stamina: 8,
   },
 ]
 
@@ -65,12 +70,20 @@ const generateLog = function (rival, damage, stepCount) {
 const Role = function (role) {
   this.roleName = role
   this.elHp = document.getElementById(`health-${role}`)
-  this.elProgressBar = document.getElementById(`progressbar-${role}`)
+  this.elStm = document.getElementById(`stamina-${role}`)
+  this.elProgressBarHp = document.getElementById(`progressbar-hp-${role}`)
+  this.elProgressBarStm = document.getElementById(`progressbar-stm-${role}`)
   this.elBtnKick = document.getElementById(`btn-kick-${role}`)
 
   this.attack = function (rival) {
     const damage = random(this.damage) * 2
+
     rival.currentHp -= damage
+    this.currentStamina -= 1
+
+    if (this.currentStamina === 0) {
+      this.elBtnKick.disabled = true
+    }
 
     if (rival.currentHp <= 0) {
       rival.currentHp = 0
@@ -79,23 +92,34 @@ const Role = function (role) {
     return damage
   }
 
+  this.renderStamina = function () {
+    this.elStm.innerText = this.currentStamina + ' / ' + this.defaultStamina
+    const width = (this.currentStamina / this.defaultStamina) * 100
+
+    Object.assign(this.elProgressBarStm.style, {
+      width: width + '%',
+    })
+  }
+
   this.renderHp = function () {
     this.elHp.innerText = this.currentHp + ' / ' + this.defaultHp
     const width = (this.currentHp / this.defaultHp) * 100
 
-    width < 50 && document.querySelector(`#progressbar-${this.roleName}`).classList.add('low')
-    width < 25 && document.querySelector(`#progressbar-${this.roleName}`).classList.add('critical')
+    width < 50 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('low')
+    width < 25 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('critical')
 
-    Object.assign(this.elProgressBar.style, {
+    Object.assign(this.elProgressBarHp.style, {
       width: width + '%',
     })
   }
 }
 
-const Pokemon = function ({ name, hp, damage }) {
+const Pokemon = function ({ name, hp, damage, stamina }) {
   this.name = name
   this.defaultHp = hp
   this.currentHp = hp
+  this.defaultStamina = stamina
+  this.currentStamina = stamina
   this.damage = damage
 }
 
@@ -107,6 +131,7 @@ const assignRoles = (pokemons, roles) => {
 
     document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
     document.querySelector(`#health-${role.roleName}`).innerText = `${randomPokemon.currentHp} / ${randomPokemon.defaultHp}`
+    document.querySelector(`#stamina-${role.roleName}`).innerText = `${randomPokemon.currentStamina} / ${randomPokemon.defaultStamina}`
     document.querySelector(`.pokemon.${role.roleName} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
 
     return {
@@ -124,40 +149,42 @@ const init = () => {
   const pokemons = build(pokemonsData, Pokemon)
   const roles = build(rolesList, Role)
   const [character, enemy] = assignRoles(pokemons, roles)
-
   let stepCount = 0
-  let timeOut
 
   const handleBtnKickClick = function (rival) {
-    const damage = this.attack(rival)
-    rival.renderHp()
+    stepCount++
 
-    if (rival.currentHp === 0) {
-      setTimeout(() => {
-        alert(`Бедный ${rival.name} -- проиграл...`)
-      }, 500)
-      clearTimeout(timeOut)
+    const renderLog = ({ damage }) => {
+      const $logsContainer = document.querySelector('.logs')
+      $logsContainer
+        .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, stepCount))
 
-      rival.elBtnKick.disabled = true
-      this.elBtnKick.disabled = true
-      rival.elBtnKick.removeEventListener('click', handleBtnKickClick)
-      this.elBtnKick.removeEventListener('click', handleBtnKickClick)
-
-      return
+      $logsContainer.scrollTop = 0
+      $logsContainer.querySelector('.log').classList.add('log-last')
     }
 
-    const $logsContainer = document.querySelector('.logs')
-    $logsContainer
-      .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, ++stepCount))
+    if (this.currentStamina > 0) {
+      const damage = this.attack(rival) // sideEffect: this.currentStamina--
+      rival.renderHp()
+      this.renderStamina()
 
-    $logsContainer.scrollTop = 0
-    $logsContainer.querySelector('.log').classList.add('log-last')
+      renderLog({ damage })
 
-    this.elBtnKick.disabled = true
-     timeOut = setTimeout(() => {
-      this === character && rival.elBtnKick.click()
-      this.elBtnKick.disabled = false
-    }, 1000)
+      if (rival.currentHp === 0) {
+        rival.elBtnKick.disabled = true
+        this.elBtnKick.disabled = true
+
+        setTimeout(() => {
+          alert(`Бедный ${rival.name} -- проиграл...`)
+        }, 300)
+
+        return
+      }
+
+      if (this === character && !rival.elBtnKick.disabled) {
+        setTimeout(() => rival.elBtnKick.click(), 500)
+      }
+    }
   }
 
   character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
