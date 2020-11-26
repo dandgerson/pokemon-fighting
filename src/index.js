@@ -35,28 +35,26 @@ const generateLog = function (rival, damage, stepCount) {
   return logTemplate
 }
 
-const assignRoles = (pokemonsData, rolesList) => pokemonsData.map((pokemon) => {
-  const randomRole = rolesList[random(0, rolesList.length)]
-  return {
-    ...pokemon,
-    roleName: randomRole,
-  }
-})
+const initCharacters = (pokemonsData, rolesList) => {
+  const charactersData = rolesList.map((role) => {
+    const randomPokemon = pokemonsData[random(0, pokemonsData.length)]
 
-const randomizeCharsByRoles = (characters, roles) => roles.reduce((acc, current) => {
-  if (!acc.map(char => char.roleName).includes(current)) {
-    acc.push(characters[random(0, characters.length)])
-  }
-  return acc
-}, [])
+    return {
+      ...randomPokemon,
+      roleName: role,
+    }
+  })
 
-const initCharacters = (characters) => {
+  const characters = fabric(charactersData, Character)
+
   characters.forEach((character) => {
     document.querySelector(`#name-${character.roleName}`).innerText = `${character.name}`
     document.querySelector(`#health-${character.roleName}`).innerText = `${character.currentHp} / ${character.defaultHp}`
     document.querySelector(`#stamina-${character.roleName}`).innerText = `${character.currentStamina} / ${character.defaultStamina}`
     document.querySelector(`.pokemon.${character.roleName} img`).src = `http://sify4321.000webhostapp.com/${character.name.toLowerCase()}.png`
   })
+
+  return characters
 }
 
 // Init Game
@@ -64,14 +62,8 @@ const initCharacters = (characters) => {
 const init = () => {
   console.log('Start Game!')
 
-  const charactersData = assignRoles(pokemonsData, rolesList)
-  console.log({ charactersData })
-  const characters = fabric(charactersData, Character)
+  const [character, enemy] = initCharacters(pokemonsData, rolesList)
 
-  const randomizedCharacters = randomizeCharsByRoles(characters, rolesList)
-  console.log({ randomizedCharacters })
-  initCharacters(randomizedCharacters)
-  // console.log({ character, enemy })
   let stepCount = 0
 
   const handleBtnKickClick = function (rival) {

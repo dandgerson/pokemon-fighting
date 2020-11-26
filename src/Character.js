@@ -6,12 +6,12 @@ class Character extends Pokemon {
   constructor(props) {
     super(props)
 
-    this.roleName = props.role
-    this.elHp = document.getElementById(`health-${props.role}`)
-    this.elStm = document.getElementById(`stamina-${props.role}`)
-    this.elProgressBarHp = document.getElementById(`progressbar-hp-${props.role}`)
-    this.elProgressBarStm = document.getElementById(`progressbar-stm-${props.role}`)
-    this.elBtnKick = document.getElementById(`btn-kick-${props.role}`)
+    this.roleName = props.roleName
+    this.elHp = document.getElementById(`health-${props.roleName}`)
+    this.elStm = document.getElementById(`stamina-${props.roleName}`)
+    this.elProgressBarHp = document.getElementById(`progressbar-hp-${props.roleName}`)
+    this.elProgressBarStm = document.getElementById(`progressbar-stm-${props.roleName}`)
+    this.elBtnKick = document.getElementById(`btn-kick-${props.roleName}`)
   }
 
   attack(rival) {
