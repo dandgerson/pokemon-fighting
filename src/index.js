@@ -4,6 +4,7 @@ import './assets/Pokemon_logo.png'
 import { pokemonsData, rolesList } from './constants'
 import { random } from './utils'
 import { fabric } from './helpers'
+import Character from './Character'
 
 const generateLog = function (rival, damage, stepCount) {
   const getCharName = (char, suffix) => `${char.name}${this.name === rival.name ? ` #${suffix}` : ''}`
@@ -34,86 +35,43 @@ const generateLog = function (rival, damage, stepCount) {
   return logTemplate
 }
 
-const Role = function (role) {
-  this.roleName = role
-  this.elHp = document.getElementById(`health-${role}`)
-  this.elStm = document.getElementById(`stamina-${role}`)
-  this.elProgressBarHp = document.getElementById(`progressbar-hp-${role}`)
-  this.elProgressBarStm = document.getElementById(`progressbar-stm-${role}`)
-  this.elBtnKick = document.getElementById(`btn-kick-${role}`)
-
-  this.attack = function (rival) {
-    const damage = random(1, this.damage) * 2
-
-    rival.currentHp -= damage
-    this.currentStamina -= 1
-
-    if (this.currentStamina === 0) {
-      this.elBtnKick.disabled = true
-    }
-
-    if (rival.currentHp <= 0) {
-      rival.currentHp = 0
-    }
-
-    return damage
-  }
-
-  this.renderStamina = function () {
-    this.elStm.innerText = `${this.currentStamina} / ${this.defaultStamina}`
-    const width = (this.currentStamina / this.defaultStamina) * 100
-
-    Object.assign(this.elProgressBarStm.style, {
-      width: `${width}%`,
-    })
-  }
-
-  this.renderHp = function () {
-    this.elHp.innerText = `${this.currentHp} / ${this.defaultHp}`
-    const width = (this.currentHp / this.defaultHp) * 100
-
-    width < 50 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('low')
-    width < 25 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('critical')
-
-    Object.assign(this.elProgressBarHp.style, {
-      width: `${width}%`,
-    })
-  }
-}
-
-const Pokemon = function ({
-  name, hp, damage, stamina,
-}) {
-  this.name = name
-  this.defaultHp = hp
-  this.currentHp = hp
-  this.defaultStamina = stamina
-  this.currentStamina = stamina
-  this.damage = damage
-}
-
-const assignRoles = (pokemons, roles) => roles.map((role) => {
-  const randomPokemon = pokemons[random(0, pokemons.length)]
-
-  document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
-  document.querySelector(`#health-${role.roleName}`).innerText = `${randomPokemon.currentHp} / ${randomPokemon.defaultHp}`
-  document.querySelector(`#stamina-${role.roleName}`).innerText = `${randomPokemon.currentStamina} / ${randomPokemon.defaultStamina}`
-  document.querySelector(`.pokemon.${role.roleName} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
-
+const assignRoles = (pokemonsData, rolesList) => pokemonsData.map((pokemon) => {
+  const randomRole = rolesList[random(0, rolesList.length)]
   return {
-    ...randomPokemon,
-    ...role,
+    ...pokemon,
+    roleName: randomRole,
   }
 })
+
+const randomizeCharsByRoles = (characters, roles) => roles.reduce((acc, current) => {
+  if (!acc.map(char => char.roleName).includes(current)) {
+    acc.push(characters[random(0, characters.length)])
+  }
+  return acc
+}, [])
+
+const initCharacters = (characters) => {
+  characters.forEach((character) => {
+    document.querySelector(`#name-${character.roleName}`).innerText = `${character.name}`
+    document.querySelector(`#health-${character.roleName}`).innerText = `${character.currentHp} / ${character.defaultHp}`
+    document.querySelector(`#stamina-${character.roleName}`).innerText = `${character.currentStamina} / ${character.defaultStamina}`
+    document.querySelector(`.pokemon.${character.roleName} img`).src = `http://sify4321.000webhostapp.com/${character.name.toLowerCase()}.png`
+  })
+}
 
 // Init Game
 
 const init = () => {
   console.log('Start Game!')
 
-  const pokemons = fabric(pokemonsData, Pokemon)
-  const roles = fabric(rolesList, Role)
-  const [character, enemy] = assignRoles(pokemons, roles)
+  const charactersData = assignRoles(pokemonsData, rolesList)
+  console.log({ charactersData })
+  const characters = fabric(charactersData, Character)
+
+  const randomizedCharacters = randomizeCharsByRoles(characters, rolesList)
+  console.log({ randomizedCharacters })
+  initCharacters(randomizedCharacters)
+  // console.log({ character, enemy })
   let stepCount = 0
 
   const handleBtnKickClick = function (rival) {
