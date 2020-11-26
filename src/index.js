@@ -1,44 +1,9 @@
 import './style.css'
 import './assets/Pokemon_logo.png'
 
-const pokemonsData = [
-  {
-    name: 'Pikachu',
-    hp: 200,
-    damage: 10,
-    stamina: 5,
-  },
-  {
-    name: 'Charmander',
-    hp: 180,
-    damage: 12,
-    stamina: 6,
-  },
-  {
-    name: 'Eevee',
-    hp: 100,
-    damage: 20,
-    stamina: 10,
-  },
-  {
-    name: 'Squirtle',
-    hp: 160,
-    damage: 14,
-    stamina: 7,
-  },
-  {
-    name: 'Bulbasaur',
-    hp: 140,
-    damage: 16,
-    stamina: 8,
-  },
-]
-
-const rolesList = ['character', 'enemy']
-
-const random = (num, type) => (type === 'withZero'
-  ? Math.floor(Math.random() * num)
-  : Math.ceil(Math.random() * num))
+import { pokemonsData, rolesList } from './constants'
+import { random } from './utils'
+import { fabric } from './helpers'
 
 const generateLog = function (rival, damage, stepCount) {
   const getCharName = (char, suffix) => `${char.name}${this.name === rival.name ? ` #${suffix}` : ''}`
@@ -60,7 +25,7 @@ const generateLog = function (rival, damage, stepCount) {
 
   const logTemplate = `
       <div class="log">
-        <div><b>#${stepCount}:</b> ${logs[random(logs.length, 'withZero')]}</div>
+        <div><b>#${stepCount}:</b> ${logs[random(0, logs.length)]}</div>
         <div>Нанеся <b>[${damage}]</b> очков урона</div>
         <div>${rivalHpStatusLog}</div>
       </div>
@@ -78,7 +43,7 @@ const Role = function (role) {
   this.elBtnKick = document.getElementById(`btn-kick-${role}`)
 
   this.attack = function (rival) {
-    const damage = random(this.damage) * 2
+    const damage = random(1, this.damage) * 2
 
     rival.currentHp -= damage
     this.currentStamina -= 1
@@ -127,10 +92,8 @@ const Pokemon = function ({
   this.damage = damage
 }
 
-const build = (data, constructor) => data.map(item => new constructor(item))
-
 const assignRoles = (pokemons, roles) => roles.map((role) => {
-  const randomPokemon = pokemons[random(pokemons.length, 'withZero')]
+  const randomPokemon = pokemons[random(0, pokemons.length)]
 
   document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
   document.querySelector(`#health-${role.roleName}`).innerText = `${randomPokemon.currentHp} / ${randomPokemon.defaultHp}`
@@ -148,13 +111,13 @@ const assignRoles = (pokemons, roles) => roles.map((role) => {
 const init = () => {
   console.log('Start Game!')
 
-  const pokemons = build(pokemonsData, Pokemon)
-  const roles = build(rolesList, Role)
+  const pokemons = fabric(pokemonsData, Pokemon)
+  const roles = fabric(rolesList, Role)
   const [character, enemy] = assignRoles(pokemons, roles)
   let stepCount = 0
 
   const handleBtnKickClick = function (rival) {
-    stepCount++
+    stepCount += 1
 
     const renderLog = ({ damage }) => {
       const $logsContainer = document.querySelector('.logs')
