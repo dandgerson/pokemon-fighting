@@ -3,7 +3,6 @@ const firstRow = 'мама мыла раму'
 const secondRow = 'собака друг человека'
 
 const getRow = (first, second) => {
-
   const countChar = (char, row) => {
     let count = 0
 
@@ -16,8 +15,6 @@ const getRow = (first, second) => {
 
   return countChar('а', first) > countChar('а', second) ? first : second
 }
-
-
 
 // second task
 const formatPhone = (numbers) => {

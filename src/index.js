@@ -1,3 +1,6 @@
+import './style.css'
+import './assets/Pokemon_logo.png'
+
 const pokemonsData = [
   {
     name: 'Pikachu',
@@ -33,10 +36,9 @@ const pokemonsData = [
 
 const rolesList = ['character', 'enemy']
 
-const random = (num, type) => type === 'withZero'
+const random = (num, type) => (type === 'withZero'
   ? Math.floor(Math.random() * num)
-  : Math.ceil(Math.random() * num)
-
+  : Math.ceil(Math.random() * num))
 
 const generateLog = function (rival, damage, stepCount) {
   const getCharName = (char, suffix) => `${char.name}${this.name === rival.name ? ` #${suffix}` : ''}`
@@ -93,28 +95,30 @@ const Role = function (role) {
   }
 
   this.renderStamina = function () {
-    this.elStm.innerText = this.currentStamina + ' / ' + this.defaultStamina
+    this.elStm.innerText = `${this.currentStamina} / ${this.defaultStamina}`
     const width = (this.currentStamina / this.defaultStamina) * 100
 
     Object.assign(this.elProgressBarStm.style, {
-      width: width + '%',
+      width: `${width}%`,
     })
   }
 
   this.renderHp = function () {
-    this.elHp.innerText = this.currentHp + ' / ' + this.defaultHp
+    this.elHp.innerText = `${this.currentHp} / ${this.defaultHp}`
     const width = (this.currentHp / this.defaultHp) * 100
 
     width < 50 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('low')
     width < 25 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('critical')
 
     Object.assign(this.elProgressBarHp.style, {
-      width: width + '%',
+      width: `${width}%`,
     })
   }
 }
 
-const Pokemon = function ({ name, hp, damage, stamina }) {
+const Pokemon = function ({
+  name, hp, damage, stamina,
+}) {
   this.name = name
   this.defaultHp = hp
   this.currentHp = hp
@@ -125,21 +129,19 @@ const Pokemon = function ({ name, hp, damage, stamina }) {
 
 const build = (data, constructor) => data.map(item => new constructor(item))
 
-const assignRoles = (pokemons, roles) => {
-  return roles.map(role => {
-    const randomPokemon = pokemons[random(pokemons.length, 'withZero')]
+const assignRoles = (pokemons, roles) => roles.map((role) => {
+  const randomPokemon = pokemons[random(pokemons.length, 'withZero')]
 
-    document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
-    document.querySelector(`#health-${role.roleName}`).innerText = `${randomPokemon.currentHp} / ${randomPokemon.defaultHp}`
-    document.querySelector(`#stamina-${role.roleName}`).innerText = `${randomPokemon.currentStamina} / ${randomPokemon.defaultStamina}`
-    document.querySelector(`.pokemon.${role.roleName} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
+  document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
+  document.querySelector(`#health-${role.roleName}`).innerText = `${randomPokemon.currentHp} / ${randomPokemon.defaultHp}`
+  document.querySelector(`#stamina-${role.roleName}`).innerText = `${randomPokemon.currentStamina} / ${randomPokemon.defaultStamina}`
+  document.querySelector(`.pokemon.${role.roleName} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
 
-    return {
-      ...randomPokemon,
-      ...role,
-    }
-  })
-}
+  return {
+    ...randomPokemon,
+    ...role,
+  }
+})
 
 // Init Game
 
@@ -189,8 +191,6 @@ const init = () => {
 
   character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
   enemy.elBtnKick.addEventListener('click', handleBtnKickClick.bind(enemy, character))
-
 }
 
 init()
-
