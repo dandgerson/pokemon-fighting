@@ -1,4 +1,4 @@
-import { random } from './utils'
+import random from './utils/random'
 
 import Pokemon from './Pokemon'
 
