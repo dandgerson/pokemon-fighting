@@ -1,7 +1,8 @@
-import './style.css'
+import './style.scss'
 import './assets/Pokemon_logo.png'
 
-import { pokemonsData, rolesList } from './constants'
+import { rolesList } from './constants'
+import pokemonsData from './pokemons'
 import generateLog from './helpers/generateLog'
 import initPlayers from './helpers/initPlayers'
 
