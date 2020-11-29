@@ -16,10 +16,10 @@ const init = () => {
   let stepCount = 0
 
   const handleAttackBtnClick = function ({ player, attack, rival, attackBtn }) {
-    const renderLog = ({ damage }) => {
+    const renderLog = ({ damage, attackName }) => {
       const $logsContainer = document.querySelector('.logs')
       $logsContainer
-        .insertAdjacentHTML('afterbegin', generateLog.call(player, rival, damage, stepCount))
+        .insertAdjacentHTML('afterbegin', generateLog.call(player, rival, damage, attackName, stepCount))
 
       $logsContainer.scrollTop = 0
       $logsContainer.querySelector('.log').classList.add('log-last')
@@ -43,7 +43,7 @@ const init = () => {
       rival.renderHp()
       player.renderStamina()
 
-      renderLog({ damage })
+      renderLog({ damage, attackName: attack.name })
 
       if (rival.currentHp === 0) {
         document.querySelectorAll('.control button').forEach((button) => { button.disabled = true })
