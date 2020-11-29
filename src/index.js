@@ -1,42 +1,10 @@
-const pokemonsData = [
-  {
-    name: 'Pikachu',
-    hp: 200,
-    damage: 10,
-    stamina: 5,
-  },
-  {
-    name: 'Charmander',
-    hp: 180,
-    damage: 12,
-    stamina: 6,
-  },
-  {
-    name: 'Eevee',
-    hp: 100,
-    damage: 20,
-    stamina: 10,
-  },
-  {
-    name: 'Squirtle',
-    hp: 160,
-    damage: 14,
-    stamina: 7,
-  },
-  {
-    name: 'Bulbasaur',
-    hp: 140,
-    damage: 16,
-    stamina: 8,
-  },
-]
+import './style.css'
+import './assets/Pokemon_logo.png'
 
-const rolesList = ['character', 'enemy']
-
-const random = (num, type) => type === 'withZero'
-  ? Math.floor(Math.random() * num)
-  : Math.ceil(Math.random() * num)
-
+import { pokemonsData, rolesList } from './constants'
+import { random } from './utils'
+import { fabric } from './helpers'
+import Character from './Character'
 
 const generateLog = function (rival, damage, stepCount) {
   const getCharName = (char, suffix) => `${char.name}${this.name === rival.name ? ` #${suffix}` : ''}`
@@ -58,7 +26,7 @@ const generateLog = function (rival, damage, stepCount) {
 
   const logTemplate = `
       <div class="log">
-        <div><b>#${stepCount}:</b> ${logs[random(logs.length, 'withZero')]}</div>
+        <div><b>#${stepCount}:</b> ${logs[random(0, logs.length)]}</div>
         <div>Нанеся <b>[${damage}]</b> очков урона</div>
         <div>${rivalHpStatusLog}</div>
       </div>
@@ -67,78 +35,26 @@ const generateLog = function (rival, damage, stepCount) {
   return logTemplate
 }
 
-const Role = function (role) {
-  this.roleName = role
-  this.elHp = document.getElementById(`health-${role}`)
-  this.elStm = document.getElementById(`stamina-${role}`)
-  this.elProgressBarHp = document.getElementById(`progressbar-hp-${role}`)
-  this.elProgressBarStm = document.getElementById(`progressbar-stm-${role}`)
-  this.elBtnKick = document.getElementById(`btn-kick-${role}`)
-
-  this.attack = function (rival) {
-    const damage = random(this.damage) * 2
-
-    rival.currentHp -= damage
-    this.currentStamina -= 1
-
-    if (this.currentStamina === 0) {
-      this.elBtnKick.disabled = true
-    }
-
-    if (rival.currentHp <= 0) {
-      rival.currentHp = 0
-    }
-
-    return damage
-  }
-
-  this.renderStamina = function () {
-    this.elStm.innerText = this.currentStamina + ' / ' + this.defaultStamina
-    const width = (this.currentStamina / this.defaultStamina) * 100
-
-    Object.assign(this.elProgressBarStm.style, {
-      width: width + '%',
-    })
-  }
-
-  this.renderHp = function () {
-    this.elHp.innerText = this.currentHp + ' / ' + this.defaultHp
-    const width = (this.currentHp / this.defaultHp) * 100
-
-    width < 50 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('low')
-    width < 25 && document.querySelector(`#progressbar-hp-${this.roleName}`).classList.add('critical')
-
-    Object.assign(this.elProgressBarHp.style, {
-      width: width + '%',
-    })
-  }
-}
-
-const Pokemon = function ({ name, hp, damage, stamina }) {
-  this.name = name
-  this.defaultHp = hp
-  this.currentHp = hp
-  this.defaultStamina = stamina
-  this.currentStamina = stamina
-  this.damage = damage
-}
-
-const build = (data, constructor) => data.map(item => new constructor(item))
-
-const assignRoles = (pokemons, roles) => {
-  return roles.map(role => {
-    const randomPokemon = pokemons[random(pokemons.length, 'withZero')]
-
-    document.querySelector(`#name-${role.roleName}`).innerText = `${randomPokemon.name}`
-    document.querySelector(`#health-${role.roleName}`).innerText = `${randomPokemon.currentHp} / ${randomPokemon.defaultHp}`
-    document.querySelector(`#stamina-${role.roleName}`).innerText = `${randomPokemon.currentStamina} / ${randomPokemon.defaultStamina}`
-    document.querySelector(`.pokemon.${role.roleName} img`).src = `http://sify4321.000webhostapp.com/${randomPokemon.name.toLowerCase()}.png`
+const initCharacters = (pokemonsData, rolesList) => {
+  const charactersData = rolesList.map((role) => {
+    const randomPokemon = pokemonsData[random(0, pokemonsData.length)]
 
     return {
       ...randomPokemon,
-      ...role,
+      roleName: role,
     }
   })
+
+  const characters = fabric(charactersData, Character)
+
+  characters.forEach((character) => {
+    document.querySelector(`#name-${character.roleName}`).innerText = `${character.name}`
+    document.querySelector(`#health-${character.roleName}`).innerText = `${character.currentHp} / ${character.defaultHp}`
+    document.querySelector(`#stamina-${character.roleName}`).innerText = `${character.currentStamina} / ${character.defaultStamina}`
+    document.querySelector(`.pokemon.${character.roleName} img`).src = `http://sify4321.000webhostapp.com/${character.name.toLowerCase()}.png`
+  })
+
+  return characters
 }
 
 // Init Game
@@ -146,13 +62,12 @@ const assignRoles = (pokemons, roles) => {
 const init = () => {
   console.log('Start Game!')
 
-  const pokemons = build(pokemonsData, Pokemon)
-  const roles = build(rolesList, Role)
-  const [character, enemy] = assignRoles(pokemons, roles)
+  const [character, enemy] = initCharacters(pokemonsData, rolesList)
+
   let stepCount = 0
 
   const handleBtnKickClick = function (rival) {
-    stepCount++
+    stepCount += 1
 
     const renderLog = ({ damage }) => {
       const $logsContainer = document.querySelector('.logs')
@@ -189,8 +104,6 @@ const init = () => {
 
   character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
   enemy.elBtnKick.addEventListener('click', handleBtnKickClick.bind(enemy, character))
-
 }
 
 init()
-
