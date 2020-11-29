@@ -15,44 +15,60 @@ const init = () => {
 
   let stepCount = 0
 
-  const handleBtnKickClick = function (rival) {
-    stepCount += 1
-
+  const handleAttackBtnClick = function ({ player, attack, rival }) {
     const renderLog = ({ damage }) => {
       const $logsContainer = document.querySelector('.logs')
       $logsContainer
-        .insertAdjacentHTML('afterbegin', generateLog.call(this, rival, damage, stepCount))
+        .insertAdjacentHTML('afterbegin', generateLog.call(player, rival, damage, stepCount))
 
       $logsContainer.scrollTop = 0
       $logsContainer.querySelector('.log').classList.add('log-last')
     }
 
-    if (this.currentStamina > 0) {
-      const damage = this.attack(rival) // sideEffect: this.currentStamina--
+    stepCount += 1
+
+    if (player.currentStamina === 0) {
+      document.querySelectorAll(`#control-${player.roleName}`).forEach((button) => { button.disabled = true })
+    }
+
+    if (player.currentStamina > 0) {
+      attack.currentCount -= 1
+      const damage = attack.action(rival) // sideEffect: this.currentStamina--
       rival.renderHp()
-      this.renderStamina()
+      player.renderStamina()
 
       renderLog({ damage })
 
       if (rival.currentHp === 0) {
-        rival.elBtnKick.disabled = true
-        this.elBtnKick.disabled = true
+        document.querySelectorAll('.control button').forEach((button) => { button.disabled = true })
 
         setTimeout(() => {
           alert(`Бедный ${rival.name} -- проиграл...`)
         }, 300)
-
-        return
-      }
-
-      if (this === player1 && !rival.elBtnKick.disabled) {
-        setTimeout(() => rival.elBtnKick.click(), 500)
       }
     }
   }
 
-  player1.elBtnKick.addEventListener('click', handleBtnKickClick.bind(player1, player2))
-  player2.elBtnKick.addEventListener('click', handleBtnKickClick.bind(player2, player1))
+  player1.attacks.forEach((attack) => {
+    const $attackBtn = document.querySelector(`#btn-${attack.name.replace(' ', '')}-${player1.roleName}`)
+    $attackBtn.addEventListener('click', () => handleAttackBtnClick({
+      player: player1,
+      rival: player2,
+      attack,
+    }))
+  })
+
+  player2.attacks.forEach((attack) => {
+    const $attackBtn = document.querySelector(`#btn-${attack.name.replace(' ', '')}-${player2.roleName}`)
+    $attackBtn.addEventListener('click', () => handleAttackBtnClick({
+      player: player2,
+      rival: player1,
+      attack,
+    }))
+  })
+
+  // player1.elBtnKick.addEventListener('click', handleAttackBtnClick.bind(player1, player2))
+  // player2.elBtnKick.addEventListener('click', handleAttackBtnClick.bind(player2, player1))
 }
 
 init()

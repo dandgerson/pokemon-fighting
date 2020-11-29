@@ -21,15 +21,21 @@ const initPlayers = (pokemonsData, rolesList) => {
     document.querySelector(`#stamina-${player.roleName}`).innerText = `${player.currentStamina} / ${player.defaultStamina}`
     document.querySelector(`.pokemon.${player.roleName} img`).src = player.img
 
+    player.initStamina()
+    player.initAttacks()
+
+    const $control = document.querySelector(`#control-${player.roleName}`)
+
     player.attacks.forEach((attack) => {
-      const $control = document.querySelector(`#control-${player.roleName}`)
       $control.insertAdjacentHTML('afterbegin', `
         <button class="button" id="btn-${attack.name.replace(' ', '')}-${player.roleName}">
-          ${attack.name}
+          ${attack.name} (${attack.currentCount})
         </button>
       `)
     })
+    console.log($control)
   })
+
 
   return players
 }
