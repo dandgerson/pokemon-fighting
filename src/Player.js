@@ -2,7 +2,7 @@ import random from './utils/random'
 
 import Pokemon from './Pokemon'
 
-class Character extends Pokemon {
+class Player extends Pokemon {
   constructor(props) {
     super(props)
 
@@ -53,4 +53,4 @@ class Character extends Pokemon {
   }
 }
 
-export default Character
+export default Player

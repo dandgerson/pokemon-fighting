@@ -3,14 +3,14 @@ import './assets/Pokemon_logo.png'
 
 import { pokemonsData, rolesList } from './constants'
 import generateLog from './helpers/generateLog'
-import initCharacters from './helpers/initCharacters'
+import initPlayers from './helpers/initPlayers'
 
 // Init Game
 
 const init = () => {
   console.log('Start Game!')
 
-  const [character, enemy] = initCharacters(pokemonsData, rolesList)
+  const [player1, player2] = initPlayers(pokemonsData, rolesList)
 
   let stepCount = 0
 
@@ -44,14 +44,14 @@ const init = () => {
         return
       }
 
-      if (this === character && !rival.elBtnKick.disabled) {
+      if (this === player1 && !rival.elBtnKick.disabled) {
         setTimeout(() => rival.elBtnKick.click(), 500)
       }
     }
   }
 
-  character.elBtnKick.addEventListener('click', handleBtnKickClick.bind(character, enemy))
-  enemy.elBtnKick.addEventListener('click', handleBtnKickClick.bind(enemy, character))
+  player1.elBtnKick.addEventListener('click', handleBtnKickClick.bind(player1, player2))
+  player2.elBtnKick.addEventListener('click', handleBtnKickClick.bind(player2, player1))
 }
 
 init()

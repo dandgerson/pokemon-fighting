@@ -32,4 +32,4 @@ export const pokemonsData = [
   },
 ]
 
-export const rolesList = ['character', 'enemy']
+export const rolesList = ['player1', 'player2']
