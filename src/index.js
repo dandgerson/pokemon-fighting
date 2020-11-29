@@ -15,7 +15,7 @@ const init = () => {
 
   let stepCount = 0
 
-  const handleAttackBtnClick = function ({ player, attack, rival }) {
+  const handleAttackBtnClick = function ({ player, attack, rival, attackBtn }) {
     const renderLog = ({ damage }) => {
       const $logsContainer = document.querySelector('.logs')
       $logsContainer
@@ -33,6 +33,12 @@ const init = () => {
 
     if (player.currentStamina > 0) {
       attack.currentCount -= 1
+
+      console.log(attackBtn)
+      attackBtn.querySelector(`#${attack.id}-count`).innerText = attack.currentCount
+
+      if (attack.currentCount === 0) attackBtn.disabled = true
+
       const damage = attack.action(rival) // sideEffect: this.currentStamina--
       rival.renderHp()
       player.renderStamina()
@@ -50,20 +56,22 @@ const init = () => {
   }
 
   player1.attacks.forEach((attack) => {
-    const $attackBtn = document.querySelector(`#btn-${attack.name.replace(' ', '')}-${player1.roleName}`)
+    const $attackBtn = document.querySelector(`#btn-${attack.id}-${player1.roleName}`)
     $attackBtn.addEventListener('click', () => handleAttackBtnClick({
       player: player1,
       rival: player2,
       attack,
+      attackBtn: $attackBtn,
     }))
   })
 
   player2.attacks.forEach((attack) => {
-    const $attackBtn = document.querySelector(`#btn-${attack.name.replace(' ', '')}-${player2.roleName}`)
+    const $attackBtn = document.querySelector(`#btn-${attack.id}-${player2.roleName}`)
     $attackBtn.addEventListener('click', () => handleAttackBtnClick({
       player: player2,
       rival: player1,
       attack,
+      attackBtn: $attackBtn,
     }))
   })
 

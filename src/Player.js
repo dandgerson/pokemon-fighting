@@ -27,6 +27,7 @@ class Player extends Pokemon {
   initAttacks() {
     this.attacks = this.attacks.map(attack => ({
       ...attack,
+      id: `${attack.name.replace(' ', '')}`.toLowerCase(),
       currentCount: attack.maxCount,
       action: (rival) => {
         const damage = random(attack.minDamage, attack.maxDamage)

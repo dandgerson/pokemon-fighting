@@ -16,20 +16,21 @@ const initPlayers = (pokemonsData, rolesList) => {
   const players = fabric(playersData, Player)
 
   players.forEach((player) => {
+    player.initStamina()
+    player.initAttacks()
+
     document.querySelector(`#name-${player.roleName}`).innerText = `${player.name}`
     document.querySelector(`#health-${player.roleName}`).innerText = `${player.currentHp} / ${player.defaultHp}`
     document.querySelector(`#stamina-${player.roleName}`).innerText = `${player.currentStamina} / ${player.defaultStamina}`
     document.querySelector(`.pokemon.${player.roleName} img`).src = player.img
 
-    player.initStamina()
-    player.initAttacks()
 
     const $control = document.querySelector(`#control-${player.roleName}`)
 
     player.attacks.forEach((attack) => {
       $control.insertAdjacentHTML('afterbegin', `
-        <button class="button" id="btn-${attack.name.replace(' ', '')}-${player.roleName}">
-          ${attack.name} (${attack.currentCount})
+        <button class="button" id="btn-${attack.id}-${player.roleName}">
+          ${attack.name} (<span id="${attack.id}-count">${attack.currentCount}</span>)
         </button>
       `)
     })
