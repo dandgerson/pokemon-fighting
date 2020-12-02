@@ -2,7 +2,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
 }
@@ -15,7 +16,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0;
-  font-family: "Heebo", sans-serif;
+  font-family: 'Heebo', sans-serif;
   background: url(./assets/Parkscene_Background.png) center bottom repeat-x, url(./assets/SkyDay.png) center top / cover;
   text-align: center;
   user-select: none;
@@ -31,17 +32,30 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  opacity: .4;
+  opacity: 0.4;
 }
 
 .control {
-  width: 340px;
-  height: 260px;
+  width: 400px;
+  height: 350px;
   position: relative;
   margin: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .buttons {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+
+    .button {
+      max-width: 170px;
+      margin-bottom: 16px;
+    }
+  }
 }
 
 .playground {
@@ -98,7 +112,7 @@ body {
 }
 
 .pokemon::before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   opacity: 0.5;
@@ -200,7 +214,7 @@ body {
   background: linear-gradient(to right, lime, #8bf500);
 }
 .pokemon .details .hp .bar .health.low,
-.pokemon .details .stm .bar .stamina  {
+.pokemon .details .stm .bar .stamina {
   background: -webkit-gradient(linear, left top, right top, from(#ffcc00), to(#f1f500));
   background: linear-gradient(to right, #ffcc00, #f1f500);
 }
@@ -210,7 +224,8 @@ body {
   background: linear-gradient(to right, #d20000, #f51700);
 }
 
-.health, .stamina {
+.health,
+.stamina {
   transition: width 300ms linear;
 }
 
@@ -241,7 +256,7 @@ body {
   stroke-width: 4px;
 }
 .pokemon:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   left: 7px;
@@ -287,10 +302,10 @@ body {
   outline: none !important;
   cursor: pointer;
   font-size: 18px;
-
+  text-transform: capitalize;
 }
 .button:after {
-  content: "";
+  content: '';
   position: absolute;
   left: -5px;
   right: -5px;
@@ -344,11 +359,25 @@ body {
   filter: hue-rotate(140deg) saturate(1) brightness(0.8) contrast(1.8);
 }
 .candy:after {
-  content: "";
+  content: '';
   display: block;
   height: 1px;
   width: 1px;
-  box-shadow: 0px 5px #000000, 0px 6px #000000, 0px 7px #000000, 1px 8px #000000, 3px 9px #000000, 2px 9px #000000, 4px 10px #000000, 5px 10px #000000, 6px 11px #000000, 7px 11px #000000, 8px 11px #000000, 9px 10px #000000, 10px 9px #000000, 10px 8px #000000, 10px 7px #000000, 10px 6px #000000, 10px 5px #000000, 10px 4px #000000, 10px 3px #000000, 9px 2px #000000, 8px 1px #000000, 7px 1px #000000, 6px 1px #000000, 5px 2px #000000, 4px 2px #000000, 3px 3px #000000, 2px 3px #000000, 1px 4px #000000, 8px 2px #ffffff, 7px 2px #ffffff, 6px 3px #ffffff, 7px 3px #ffffff, 8px 3px #ffffff, 9px 3px #ffffff, 8px 4px #ffffff, 6px 2px #fff69c, 5px 3px #fff69c, 4px 3px #fff69c, 4px 4px #fff69c, 2px 4px #fff69c, 3px 5px #fff69c, 6px 4px #fff69c, 9px 5px #fff69c, 9px 7px #fff69c, 6px 8px #fff69c, 3px 4px #fff6e6, 2px 5px #fff6e6, 3px 6px #fff6e6, 7px 4px #fff6e6, 9px 4px #fff6e6, 7px 8px #fff6e6, 8px 8px #ffffff, 8px 10px #dea410, 7px 10px #dea410, 6px 10px #dea410, 9px 9px #dea410, 8px 9px #dea410, 7px 9px #dea410, 6px 9px #dea410, 5px 9px #dea410, 4px 9px #dea410, 4px 8px #dea410, 3px 8px #dea410, 2px 8px #dea410, 2px 7px #dea410, 1px 7px #dea410, 1px 6px #dea410, 1px 5px #eec529, 2px 6px #eec529, 3px 7px #eec529, 5px 8px #eec529, 9px 8px #eec529, 7px 6px #f6de41, 8px 6px #f6de41, 8px 7px #f6de41, 7px 7px #f6de41, 7px 5px #f6de41, 6px 5px #f6de41, 5px 5px #f6de41, 6px 6px #f6de41, 5px 4px #ffe65a, 4px 5px #ffe65a, 8px 5px #ffe65a, 9px 6px #ffe65a, 4px 6px #ffe65a, 5px 6px #ffe65a, 5px 7px #ffe65a, 6px 7px #ffe65a, 4px 7px #fff69c;
+  box-shadow: 0px 5px #000000, 0px 6px #000000, 0px 7px #000000, 1px 8px #000000, 3px 9px #000000, 2px 9px #000000,
+    4px 10px #000000, 5px 10px #000000, 6px 11px #000000, 7px 11px #000000, 8px 11px #000000, 9px 10px #000000,
+    10px 9px #000000, 10px 8px #000000, 10px 7px #000000, 10px 6px #000000, 10px 5px #000000, 10px 4px #000000,
+    10px 3px #000000, 9px 2px #000000, 8px 1px #000000, 7px 1px #000000, 6px 1px #000000, 5px 2px #000000,
+    4px 2px #000000, 3px 3px #000000, 2px 3px #000000, 1px 4px #000000, 8px 2px #ffffff, 7px 2px #ffffff,
+    6px 3px #ffffff, 7px 3px #ffffff, 8px 3px #ffffff, 9px 3px #ffffff, 8px 4px #ffffff, 6px 2px #fff69c,
+    5px 3px #fff69c, 4px 3px #fff69c, 4px 4px #fff69c, 2px 4px #fff69c, 3px 5px #fff69c, 6px 4px #fff69c,
+    9px 5px #fff69c, 9px 7px #fff69c, 6px 8px #fff69c, 3px 4px #fff6e6, 2px 5px #fff6e6, 3px 6px #fff6e6,
+    7px 4px #fff6e6, 9px 4px #fff6e6, 7px 8px #fff6e6, 8px 8px #ffffff, 8px 10px #dea410, 7px 10px #dea410,
+    6px 10px #dea410, 9px 9px #dea410, 8px 9px #dea410, 7px 9px #dea410, 6px 9px #dea410, 5px 9px #dea410,
+    4px 9px #dea410, 4px 8px #dea410, 3px 8px #dea410, 2px 8px #dea410, 2px 7px #dea410, 1px 7px #dea410,
+    1px 6px #dea410, 1px 5px #eec529, 2px 6px #eec529, 3px 7px #eec529, 5px 8px #eec529, 9px 8px #eec529,
+    7px 6px #f6de41, 8px 6px #f6de41, 8px 7px #f6de41, 7px 7px #f6de41, 7px 5px #f6de41, 6px 5px #f6de41,
+    5px 5px #f6de41, 6px 6px #f6de41, 5px 4px #ffe65a, 4px 5px #ffe65a, 8px 5px #ffe65a, 9px 6px #ffe65a,
+    4px 6px #ffe65a, 5px 6px #ffe65a, 5px 7px #ffe65a, 6px 7px #ffe65a, 4px 7px #fff69c;
 }
 
 .heart {
@@ -362,78 +391,108 @@ body {
   animation: float 1s ease infinite;
 }
 .heart:after {
-  content: "";
+  content: '';
   width: 1px;
   height: 1px;
   display: block;
-  box-shadow: 8px 15px #000000, 9px 15px #000000, 10px 14px #000000, 11px 13px #000000, 12px 12px #000000, 13px 11px #000000, 14px 10px #000000, 15px 9px #000000, 15px 8px #000000, 15px 7px #000000, 15px 6px #000000, 14px 4px #000000, 12px 3px #000000, 11px 3px #000000, 9px 5px #000000, 8px 5px #000000, 7px 14px #000000, 6px 13px #000000, 5px 12px #000000, 4px 11px #000000, 3px 10px #000000, 2px 9px #000000, 2px 8px #000000, 2px 7px #000000, 2px 6px #000000, 3px 4px #000000, 5px 3px #000000, 6px 3px #000000, 8px 14px #a53367, 9px 14px #a53367, 10px 13px #a53367, 11px 12px #a53367, 12px 11px #a53367, 13px 10px #a53367, 14px 9px #a53367, 14px 5px #a53367, 13px 4px #a53367, 3px 5px #a53367, 4px 4px #a53367, 7px 13px #a53367, 6px 12px #a53367, 5px 11px #a53367, 4px 10px #a53367, 3px 9px #a53367, 3px 6px #a53367, 14px 6px #a53367, 10px 4px #a53367, 7px 4px #a53367, 6px 4px #a53367, 11px 4px #a53367, 7px 5px #a53367, 10px 5px #a53367, 8px 6px #a53367, 9px 6px #a53367, 3px 7px #eb86ae, 3px 8px #eb86ae, 5px 4px #eb86ae, 12px 4px #eb86ae, 14px 7px #eb86ae, 14px 8px #eb86ae, 8px 13px #eb86ae, 9px 13px #eb86ae, 7px 12px #eb86ae, 4px 9px #eb86ae, 13px 9px #eb86ae, 12px 10px #eb86ae, 10px 12px #eb86ae, 5px 10px #eb86ae, 4px 5px #eb86ae, 13px 5px #eb86ae, 5px 6px #ffffff, 6px 6px #ffffff, 5px 7px #ffffff, 11px 6px #ffffff, 6px 7px #feccf1, 5px 8px #feccf1, 4px 6px #feccf1, 5px 5px #feccf1, 11px 7px #feccf1, 9px 8px #ffc6f8, 8px 8px #ffc6f8, 8px 9px #ffc6f8, 9px 9px #ffc6f8, 7px 9px #f2d2f9, 6px 8px #f2d2f9, 7px 8px #f2d2f9, 13px 8px #ffa5da, 12px 9px #ffa5da, 11px 10px #ffa5da, 11px 11px #ffa5da, 10px 11px #ffa5da, 9px 12px #ffa5da, 8px 12px #ffa5da, 13px 7px #ffa5da, 13px 6px #ffa5da, 12px 5px #ffa5da, 4px 7px #ffa5da, 4px 8px #ffa5da, 5px 9px #ffa5da, 6px 10px #ffa5da, 6px 11px #ffa5da, 7px 11px #ffa5da, 12px 7px #ffd2f2, 12px 8px #ffd2f2, 11px 9px #ffd2f2, 10px 10px #ffd2f2, 9px 11px #ffd2f2, 8px 11px #ffd2f2, 6px 9px #ffd2f2, 7px 10px #ffd2f2, 8px 10px #ffd2f2, 9px 10px #ffd2f2, 10px 9px #ffd2f2, 11px 8px #ffd2f2, 10px 8px #ffd2f2, 10px 7px #ffd2f2, 12px 6px #ffc6f8, 7px 7px #ffc6f8, 8px 7px #ff87c2, 9px 7px #ff87c2, 10px 6px #ff87c2, 11px 5px #ff87c2, 7px 6px #ff87c2, 6px 5px #ff87c2, 2px 4px #f2d2f9, 3px 3px #f2d2f9, 5px 2px #f2d2f9, 6px 2px #f2d2f9, 11px 2px #f2d2f9, 12px 2px #f2d2f9, 14px 3px #f2d2f9, 15px 4px #f2d2f9, 2px 10px #eb86ae, 3px 11px #eb86ae, 4px 12px #eb86ae, 5px 13px #eb86ae, 6px 14px #eb86ae, 11px 14px #eb86ae, 12px 13px #eb86ae, 13px 12px #eb86ae, 14px 11px #eb86ae, 15px 10px #eb86ae, 16px 7px #eb86ae, 16px 8px #eb86ae, 15px 5px #eb86ae, 13px 3px #eb86ae, 10px 3px #eb86ae, 9px 4px #eb86ae, 7px 3px #eb86ae, 8px 4px #eb86ae, 4px 3px #eb86ae, 2px 5px #eb86ae, 1px 7px #eb86ae, 1px 8px #eb86ae, 1px 6px #f2d2f9, 1px 9px #f2d2f9, 6px 15px #f2d2f9, 5px 14px #f2d2f9, 4px 13px #f2d2f9, 3px 12px #f2d2f9, 2px 11px #f2d2f9, 4px 2px #f2d2f9, 8px 3px #f2d2f9, 9px 3px #f2d2f9, 13px 2px #f2d2f9, 11px 15px #f2d2f9, 12px 14px #f2d2f9, 13px 13px #f2d2f9, 14px 12px #f2d2f9, 15px 11px #f2d2f9, 16px 9px #f2d2f9, 16px 6px #f2d2f9, 1px 10px #ffc6f8, 16px 10px #ffc6f8, 16px 5px #ffc6f8, 1px 5px #ffc6f8, 7px 2px #ffc6f8, 10px 2px #ffc6f8, 7px 15px #a53367, 10px 15px #a53367, 7px 16px #f2d2f9, 10px 16px #f2d2f9, 8px 16px #ffa5da, 9px 16px #ffa5da;
+  box-shadow: 8px 15px #000000, 9px 15px #000000, 10px 14px #000000, 11px 13px #000000, 12px 12px #000000,
+    13px 11px #000000, 14px 10px #000000, 15px 9px #000000, 15px 8px #000000, 15px 7px #000000, 15px 6px #000000,
+    14px 4px #000000, 12px 3px #000000, 11px 3px #000000, 9px 5px #000000, 8px 5px #000000, 7px 14px #000000,
+    6px 13px #000000, 5px 12px #000000, 4px 11px #000000, 3px 10px #000000, 2px 9px #000000, 2px 8px #000000,
+    2px 7px #000000, 2px 6px #000000, 3px 4px #000000, 5px 3px #000000, 6px 3px #000000, 8px 14px #a53367,
+    9px 14px #a53367, 10px 13px #a53367, 11px 12px #a53367, 12px 11px #a53367, 13px 10px #a53367, 14px 9px #a53367,
+    14px 5px #a53367, 13px 4px #a53367, 3px 5px #a53367, 4px 4px #a53367, 7px 13px #a53367, 6px 12px #a53367,
+    5px 11px #a53367, 4px 10px #a53367, 3px 9px #a53367, 3px 6px #a53367, 14px 6px #a53367, 10px 4px #a53367,
+    7px 4px #a53367, 6px 4px #a53367, 11px 4px #a53367, 7px 5px #a53367, 10px 5px #a53367, 8px 6px #a53367,
+    9px 6px #a53367, 3px 7px #eb86ae, 3px 8px #eb86ae, 5px 4px #eb86ae, 12px 4px #eb86ae, 14px 7px #eb86ae,
+    14px 8px #eb86ae, 8px 13px #eb86ae, 9px 13px #eb86ae, 7px 12px #eb86ae, 4px 9px #eb86ae, 13px 9px #eb86ae,
+    12px 10px #eb86ae, 10px 12px #eb86ae, 5px 10px #eb86ae, 4px 5px #eb86ae, 13px 5px #eb86ae, 5px 6px #ffffff,
+    6px 6px #ffffff, 5px 7px #ffffff, 11px 6px #ffffff, 6px 7px #feccf1, 5px 8px #feccf1, 4px 6px #feccf1,
+    5px 5px #feccf1, 11px 7px #feccf1, 9px 8px #ffc6f8, 8px 8px #ffc6f8, 8px 9px #ffc6f8, 9px 9px #ffc6f8,
+    7px 9px #f2d2f9, 6px 8px #f2d2f9, 7px 8px #f2d2f9, 13px 8px #ffa5da, 12px 9px #ffa5da, 11px 10px #ffa5da,
+    11px 11px #ffa5da, 10px 11px #ffa5da, 9px 12px #ffa5da, 8px 12px #ffa5da, 13px 7px #ffa5da, 13px 6px #ffa5da,
+    12px 5px #ffa5da, 4px 7px #ffa5da, 4px 8px #ffa5da, 5px 9px #ffa5da, 6px 10px #ffa5da, 6px 11px #ffa5da,
+    7px 11px #ffa5da, 12px 7px #ffd2f2, 12px 8px #ffd2f2, 11px 9px #ffd2f2, 10px 10px #ffd2f2, 9px 11px #ffd2f2,
+    8px 11px #ffd2f2, 6px 9px #ffd2f2, 7px 10px #ffd2f2, 8px 10px #ffd2f2, 9px 10px #ffd2f2, 10px 9px #ffd2f2,
+    11px 8px #ffd2f2, 10px 8px #ffd2f2, 10px 7px #ffd2f2, 12px 6px #ffc6f8, 7px 7px #ffc6f8, 8px 7px #ff87c2,
+    9px 7px #ff87c2, 10px 6px #ff87c2, 11px 5px #ff87c2, 7px 6px #ff87c2, 6px 5px #ff87c2, 2px 4px #f2d2f9,
+    3px 3px #f2d2f9, 5px 2px #f2d2f9, 6px 2px #f2d2f9, 11px 2px #f2d2f9, 12px 2px #f2d2f9, 14px 3px #f2d2f9,
+    15px 4px #f2d2f9, 2px 10px #eb86ae, 3px 11px #eb86ae, 4px 12px #eb86ae, 5px 13px #eb86ae, 6px 14px #eb86ae,
+    11px 14px #eb86ae, 12px 13px #eb86ae, 13px 12px #eb86ae, 14px 11px #eb86ae, 15px 10px #eb86ae, 16px 7px #eb86ae,
+    16px 8px #eb86ae, 15px 5px #eb86ae, 13px 3px #eb86ae, 10px 3px #eb86ae, 9px 4px #eb86ae, 7px 3px #eb86ae,
+    8px 4px #eb86ae, 4px 3px #eb86ae, 2px 5px #eb86ae, 1px 7px #eb86ae, 1px 8px #eb86ae, 1px 6px #f2d2f9,
+    1px 9px #f2d2f9, 6px 15px #f2d2f9, 5px 14px #f2d2f9, 4px 13px #f2d2f9, 3px 12px #f2d2f9, 2px 11px #f2d2f9,
+    4px 2px #f2d2f9, 8px 3px #f2d2f9, 9px 3px #f2d2f9, 13px 2px #f2d2f9, 11px 15px #f2d2f9, 12px 14px #f2d2f9,
+    13px 13px #f2d2f9, 14px 12px #f2d2f9, 15px 11px #f2d2f9, 16px 9px #f2d2f9, 16px 6px #f2d2f9, 1px 10px #ffc6f8,
+    16px 10px #ffc6f8, 16px 5px #ffc6f8, 1px 5px #ffc6f8, 7px 2px #ffc6f8, 10px 2px #ffc6f8, 7px 15px #a53367,
+    10px 15px #a53367, 7px 16px #f2d2f9, 10px 16px #f2d2f9, 8px 16px #ffa5da, 9px 16px #ffa5da;
 }
 
 @-webkit-keyframes boing {
   0%,
   100% {
-      -webkit-transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
-      transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
+    -webkit-transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
+    transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
   }
   50% {
-      -webkit-transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
-      transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
+    -webkit-transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
+    transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
   }
 }
 
 @keyframes boing {
   0%,
   100% {
-      -webkit-transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
-      transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
+    -webkit-transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
+    transform: translateY(-50%) translateX(-90%) scaleX(1) scaleY(1);
   }
   50% {
-      -webkit-transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
-      transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
+    -webkit-transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
+    transform: translateY(-50%) translateX(-60%) scaleX(0.95) scaleY(1.1);
   }
 }
 @-webkit-keyframes bounce {
   0%,
   100% {
-      -webkit-transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
-      transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
+    -webkit-transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
+    transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
   }
   50% {
-      -webkit-transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
-      transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
+    -webkit-transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
+    transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
   }
 }
 @keyframes bounce {
   0%,
   100% {
-      -webkit-transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
-      transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
+    -webkit-transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
+    transform: translateY(-50%) translateX(-50%) scaleX(1) scaleY(1);
   }
   50% {
-      -webkit-transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
-      transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
+    -webkit-transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
+    transform: translateY(-60%) translateX(-50%) scaleX(0.95) scaleY(1.03);
   }
 }
 @-webkit-keyframes float {
   0%,
   100% {
-      -webkit-transform: translateY(-50%) translateX(-50%);
-      transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
   }
   50% {
-      -webkit-transform: translateY(-57%) translateX(-50%);
-      transform: translateY(-57%) translateX(-50%);
+    -webkit-transform: translateY(-57%) translateX(-50%);
+    transform: translateY(-57%) translateX(-50%);
   }
 }
 @keyframes float {
   0%,
   100% {
-      -webkit-transform: translateY(-50%) translateX(-50%);
-      transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
   }
   50% {
-      -webkit-transform: translateY(-57%) translateX(-50%);
-      transform: translateY(-57%) translateX(-50%);
+    -webkit-transform: translateY(-57%) translateX(-50%);
+    transform: translateY(-57%) translateX(-50%);
   }
 }
 body,
@@ -465,7 +524,6 @@ h1 {
   justify-content: center;
 }
 
-
 .wrap {
   display: flex;
   margin: 0 auto;
@@ -494,14 +552,14 @@ h1 {
   height: 40vh;
   /* min-height: 100px; */
   /* max-height: 40vh; */
-  outline: 1px solid rgba(222	239	251	 / 0.2);
+  outline: 1px solid rgba(222, 239, 251, 0.2);
   overflow: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  background-color: rgba(222	239	251	/ 0.2);
+  background-color: rgba(222, 239, 251, 0.2);
   padding: 6px;
   margin-bottom: 40px;
 }
@@ -509,13 +567,12 @@ h1 {
 .log {
   margin: 6px;
   padding: 6px;
-  background-color: rgba(187 222 247	/ .4);
+  background-color: rgba(187, 222, 247, 0.4);
 
-  border: 4px solid rgba(187 255 247	/ .9);
+  border: 4px solid rgba(187, 255, 247, 0.9);
   transition: border-color 500ms linear;
 }
 
 .log-last {
   border-color: transparent;
 }
-

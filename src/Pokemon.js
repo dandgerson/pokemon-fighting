@@ -1,13 +1,15 @@
 class Pokemon {
   constructor({
-    name, hp, damage, stamina,
+    name,
+    hp,
+    attacks,
+    img,
   }) {
     this.name = name
     this.defaultHp = hp
     this.currentHp = hp
-    this.defaultStamina = stamina
-    this.currentStamina = stamina
-    this.damage = damage
+    this.attacks = attacks
+    this.img = img
   }
 }
 
