@@ -6,8 +6,6 @@ class Player extends Pokemon {
   constructor(props) {
     super(props)
 
-    // console.log({ props })
-
     this.roleName = props.roleName
     this.elHp = document.getElementById(`health-${props.roleName}`)
     this.elStm = document.getElementById(`stamina-${props.roleName}`)

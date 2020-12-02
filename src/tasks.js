@@ -34,6 +34,3 @@ const formatPhone = (numbers) => {
 
   return result
 }
-
-// console.log(formatPhone('+71234567890'))
-// console.log(getRow(firstRow, secondRow))

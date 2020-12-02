@@ -34,7 +34,6 @@ const initPlayers = (pokemonsData, rolesList) => {
         </button>
       `)
     })
-    console.log($control)
   })
 
 

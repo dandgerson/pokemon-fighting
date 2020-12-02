@@ -34,7 +34,6 @@ const init = () => {
     if (player.currentStamina > 0) {
       attack.currentCount -= 1
 
-      console.log(attackBtn)
       attackBtn.querySelector(`#${attack.id}-count`).innerText = attack.currentCount
 
       if (attack.currentCount === 0) attackBtn.disabled = true
@@ -74,9 +73,6 @@ const init = () => {
       attackBtn: $attackBtn,
     }))
   })
-
-  // player1.elBtnKick.addEventListener('click', handleAttackBtnClick.bind(player1, player2))
-  // player2.elBtnKick.addEventListener('click', handleAttackBtnClick.bind(player2, player1))
 }
 
 init()
